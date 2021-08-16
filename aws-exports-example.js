@@ -1,4 +1,4 @@
-{
+const aws_exports = {
     "aws_project_region": process.env.PROJECT_REGION,
     "aws_cognito_identity_pool_id": process.env.COGNITO_IDENTITY_POOL_ID,
     "aws_cognito_region": process.env.COGNITO_REGION, 
@@ -13,3 +13,4 @@
         }
     ]
 };
+export default aws_exports;
