@@ -1,7 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
 
+import React, { useEffect } from 'react';
+
+import { API } from 'aws-amplify';
+
 function App() {
+
+  useEffect(() => {
+    const fetchAPI = async ()=> {
+      console.log("testing api ======================================== ");
+
+      const apiName = 'tahuapi';
+      const path = '/test';
+      const myInit = { // OPTIONAL
+        headers: {}, // OPTIONAL
+      };
+      return await API.get(apiName, path, myInit);
+    }
+
+    fetchAPI();
+
+  }, []);
+  
   return (
     <div className="App">
       <header className="App-header">
