@@ -12,7 +12,7 @@ function App() {
       console.log("testing api ======================================== ");
 
       const apiName = 'tahuapi';
-      const path = '/test';
+      const path = '/experiences/1c93f498-1fdc-4640-a691-6d6f9367d569';
       const myInit = { // OPTIONAL
         headers: {}, // OPTIONAL
       };
