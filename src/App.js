@@ -9,14 +9,16 @@ function App() {
 
   useEffect(() => {
     const fetchAPI = async ()=> {
-      console.log("testing api ======================================== ");
+      console.log("testing api: ");
 
       const apiName = 'tahuapi';
       const path = '/experiences/1c93f498-1fdc-4640-a691-6d6f9367d569';
-      const myInit = { // OPTIONAL
-        headers: {}, // OPTIONAL
+      const myInit = {
+        headers: {},
       };
-      return await API.get(apiName, path, myInit);
+      const res = await API.get(apiName, path, myInit);
+      console.log(res);
+      return res;
     }
 
     fetchAPI();
