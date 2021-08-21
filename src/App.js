@@ -1,45 +1,101 @@
 import logo from './logo.svg';
 import './App.css';
 
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
+import VideoJS from './components/VideoJS';
 
 function App() {
 
-  useEffect(() => {
-    const fetchAPI = async ()=> {
-      console.log("testing api: ");
+  const [options, setOptions] = useState([]);
+  const [apiData, setApiData] = useState([]);
 
+  useEffect(() => {
+
+    const fetchItems = async () =>{
       const apiName = 'tahuapi';
-      const path = '/experiences/1c93f498-1fdc-4640-a691-6d6f9367d569';
+      const path = '/items';
       const myInit = {
         headers: {},
       };
-      const res = await API.get(apiName, path, myInit);
-      console.log(res);
-      return res;
+
+      const res = await API.get(apiName, path, myInit);      
+      setApiData(res);
     }
 
-    fetchAPI();
-
+    fetchItems();
   }, []);
+
+  useEffect(() => {
+
+    const getItemById = async (id) => {
+      const apiName = 'tahuapi';
+      const path = '/item/' + id;
+      const myInit = {
+        headers: {},
+      };
+
+      const res = await API.get(apiName, path, myInit);
+      console.log("Get Item By Id: ", res);
+    }
+
+    const fetchOptions = () =>{
+      console.log("apiData: ", apiData);
+
+      const res = apiData.map(item => {
+        const x = {
+          autoplay: true,
+          controls: true,
+          responsive: false,
+          fluid: false,
+          sources: [{
+            src: item.previewUrl,
+            type: item.previewContentType
+          }],
+          isVideo: item.previewContentType.includes('video') ? true: false ,
+          url: item.previewUrl,
+          id: item.id
+        }
+        return x;
+      })
+      
+
+      console.log("option list: ", res);
+      setOptions(res);
+    }
+
+    fetchOptions();
+
+    if(apiData.length > 0) {
+      getItemById(apiData[0].id);
+    }
+    
+  }, [apiData]);
+
+  
   
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          test image and video
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div style={{display: 'flex', gap: '20px', flexDirection: 'column'}}>
+          {options.length>0 && options.map((ops, index) => (            
+            <div>
+              {ops.isVideo && <VideoJS options={ops} />}
+              {!ops.isVideo && <img src={ops.url} /> }
+            </div>
+             //? (<VideoJS options={ops} />): (<img src={ops.url} />)            
+          ))}
+ 
+          {options.length === 0 && (
+            <div>
+              Loading
+            </div>
+          )}
+        </div>
+       
       </header>
     </div>
   );
