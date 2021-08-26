@@ -3,6 +3,7 @@ import './App.css';
 
 import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
+import MyRouts from './routers/routes';
 import VideoJS from './components/VideoJS';
 
 function App() {
@@ -75,29 +76,30 @@ function App() {
   
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          test image and video
-        </p>
-        <div style={{display: 'flex', gap: '20px', flexDirection: 'column'}}>
-          {options.length>0 && options.map((ops, index) => (            
-            <div>
-              {ops.isVideo && <VideoJS options={ops} />}
-              {!ops.isVideo && <img src={ops.url} /> }
-            </div>
-             //? (<VideoJS options={ops} />): (<img src={ops.url} />)            
-          ))}
+    // <div className="App">
+    //   <header className="App-header">
+    //     <p>
+    //       test image and video
+    //     </p>
+    //     <div style={{display: 'flex', gap: '20px', flexDirection: 'column'}}>
+    //       {options.length>0 && options.map((ops, index) => (            
+    //         <div>
+    //           {ops.isVideo && <VideoJS options={ops} />}
+    //           {!ops.isVideo && <img src={ops.url} /> }
+    //         </div>
+    //          //? (<VideoJS options={ops} />): (<img src={ops.url} />)            
+    //       ))}
  
-          {options.length === 0 && (
-            <div>
-              Loading
-            </div>
-          )}
-        </div>
+    //       {options.length === 0 && (
+    //         <div>
+    //           Loading
+    //         </div>
+    //       )}
+    //     </div>
        
-      </header>
-    </div>
+    //   </header>
+    // </div>
+    <MyRouts />
   );
 }
 
