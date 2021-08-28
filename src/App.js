@@ -8,70 +8,70 @@ import VideoJS from './components/VideoJS';
 
 function App() {
 
-  const [options, setOptions] = useState([]);
-  const [apiData, setApiData] = useState([]);
+  // const [options, setOptions] = useState([]);
+  // const [apiData, setApiData] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const fetchItems = async () =>{
-      const apiName = 'tahuapi';
-      const path = '/items';
-      const myInit = {
-        headers: {},
-      };
+  //   const fetchItems = async () =>{
+  //     const apiName = 'tahuapi';
+  //     const path = '/items';
+  //     const myInit = {
+  //       headers: {},
+  //     };
 
-      const res = await API.get(apiName, path, myInit);      
-      setApiData(res);
-    }
+  //     const res = await API.get(apiName, path, myInit);      
+  //     setApiData(res);
+  //   }
 
-    fetchItems();
-  }, []);
+  //   fetchItems();
+  // }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const getItemById = async (id) => {
-      const apiName = 'tahuapi';
-      const path = '/item/' + id;
-      const myInit = {
-        headers: {},
-      };
+  //   const getItemById = async (id) => {
+  //     const apiName = 'tahuapi';
+  //     const path = '/item/' + id;
+  //     const myInit = {
+  //       headers: {},
+  //     };
 
-      const res = await API.get(apiName, path, myInit);
-      console.log("Get Item By Id: ", res);
-    }
+  //     const res = await API.get(apiName, path, myInit);
+  //     console.log("Get Item By Id: ", res);
+  //   }
 
-    const fetchOptions = () =>{
-      console.log("apiData: ", apiData);
+  //   const fetchOptions = () =>{
+  //     console.log("apiData: ", apiData);
 
-      const res = apiData.map(item => {
-        const x = {
-          autoplay: true,
-          controls: true,
-          responsive: false,
-          fluid: false,
-          sources: [{
-            src: item.previewUrl,
-            type: item.previewContentType
-          }],
-          isVideo: item.previewContentType.includes('video') ? true: false ,
-          url: item.previewUrl,
-          id: item.id
-        }
-        return x;
-      })
+  //     const res = apiData.map(item => {
+  //       const x = {
+  //         autoplay: true,
+  //         controls: true,
+  //         responsive: false,
+  //         fluid: false,
+  //         sources: [{
+  //           src: item.previewUrl,
+  //           type: item.previewContentType
+  //         }],
+  //         isVideo: item.previewContentType.includes('video') ? true: false ,
+  //         url: item.previewUrl,
+  //         id: item.id
+  //       }
+  //       return x;
+  //     })
       
 
-      console.log("option list: ", res);
-      setOptions(res);
-    }
+  //     console.log("option list: ", res);
+  //     setOptions(res);
+  //   }
 
-    fetchOptions();
+  //   fetchOptions();
 
-    if(apiData.length > 0) {
-      getItemById(apiData[0].id);
-    }
+  //   if(apiData.length > 0) {
+  //     getItemById(apiData[0].id);
+  //   }
     
-  }, [apiData]);
+  // }, [apiData]);
 
   
   

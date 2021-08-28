@@ -10,8 +10,8 @@ export const VideoJS = ( props ) => {
   // This seperate functional component fixes the removal of the videoelement 
   // from the DOM when calling the dispose() method on a player
   const VideoHtml = ( props ) => (
-    <div data-vjs-player>
-      <video ref={videoRef} className="video-js vjs-big-play-centered" />
+    <div data-vjs-player className="video-wrapper">
+      <video ref={videoRef} className="video-js vjs-big-play-centered video-wrapper" />
     </div>
   );
 

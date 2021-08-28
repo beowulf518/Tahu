@@ -2914,6 +2914,10 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   border: none;
 }
 
+.video-wrapper{
+  width: 100%;
+}
+
 /* #endregion Blog */
 /*----------------------------------------------
 13. All Media Queries
