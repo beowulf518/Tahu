@@ -1,97 +1,20 @@
 
 // import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ReactPaginate from 'react-paginate';
 import VideoJS from '../VideoJS';
-import { API } from 'aws-amplify';
+import getProducts from '../../actions/product';
 
-const BASE_URL = "https://my-json-server.typicode.com/themeland/netstorm-json/explore";
+const ExploreTwo = () => {
+    const dispatch = useDispatch();
+    const { nfts: options } = useSelector(state => state.product);
 
-function ExploreTwo() {
-    // state = {
-    //     data: {},
-    //     exploreData: []
-    // }
-    // componentDidMount(){
-    //     axios.get(`${BASE_URL}`)
-    //         .then(res => {
-    //             this.setState({
-    //                 data: res.data,
-    //                 exploreData: res.data.exploreData
-    //             })
-    //             // console.log(this.state.data)
-    //         })
-    //     .catch(err => console.log(err))
-    // }
-
-    const [options, setOptions] = useState([]);
-    const [apiData, setApiData] = useState([]);
-
-    useEffect(() => {
-
-        const fetchItems = async () =>{
-            const apiName = 'tahuapi';
-            const path = '/items';
-            const myInit = {
-                headers: {},
-            };
-
-            const res = await API.get(apiName, path, myInit);      
-            setApiData(res);
-        }
-
-        fetchItems();
-    }, []);
-
-    useEffect(() => {
-
-        const getItemById = async (id) => {
-            const apiName = 'tahuapi';
-            const path = '/item/' + id;
-            const myInit = {
-                headers: {},
-            };
-
-            const res = await API.get(apiName, path, myInit);
-            console.log("Get Item By Id: ", res);
-        }
-
-        const fetchOptions = () =>{
-            console.log("apiData: ", apiData);
-
-            const res = apiData.map(item => {
-                const x = {
-                    autoplay: true,
-                    controls: true,
-                    responsive: true,
-                    fluid: false,
-                    height: '150px',
-                    sources: [{
-                        src: item.previewUrl,
-                        type: item.previewContentType
-                    }],
-                    isVideo: item.previewContentType.includes('video') ? true: false ,
-                    url: item.previewUrl,
-                    id: item.id,
-                    title: item.title,
-                    description: item.descripttion,
-
-                }
-                return x;
-            })
-            
-
-            console.log("option list: ", res);
-            setOptions(res);
-        }
-
-        fetchOptions();
-
-        if(apiData.length > 0) {
-            getItemById(apiData[0].id);
-        }
-        
-    }, [apiData]);
-
+    const handlePageClick = (data) => {
+        dispatch(getProducts('', data.selected));
+        console.log(data.selected);
+    }
+    
     return (
         <section className="explore-area">
             <div className="container">
@@ -109,13 +32,14 @@ function ExploreTwo() {
                         </div>
                     </div>
                 </div> */}
+
                 <div className="row items">
                     {options.length>0 && options.map((item, idx) => {
                         return (
                             <div key={`edt_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
                                 <div className="card">
                                     <div className="image-over">
-                                        <a href={`/item-details/${item.id}`}>
+                                        <a>
                                             {item.isVideo && <VideoJS options={item} />}
                                             {!item.isVideo && <img className="card-img-top" src={item.url} alt="" /> }
                                         </a>
@@ -124,7 +48,7 @@ function ExploreTwo() {
                                     <div className="card-caption col-12 p-0">
                                         {/* Card Body */}
                                         <div className="card-body">
-                                            <a href="/item-details">
+                                            <a href={`/item-details/${item.id}`}>
                                                 <h5 className="mb-0">{item.title}</h5>
                                             </a>
                                             <div className="seller d-flex align-items-center my-3">
@@ -144,7 +68,27 @@ function ExploreTwo() {
                             </div>
                         );
                     })}
+                    {
+                        options.length==0 && <div style={{textAlign: 'center', width: '100%'}}>There is no data.</div>
+                    }
                 </div>
+                
+                <div class="paginate-container">
+                    <ReactPaginate
+                        previousLabel={'Prev'}
+                        nextLabel={'Next'}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageClassName='pageItem'
+                        // pageCount={this.state.pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageClick}
+                        containerClassName={'pagination'}
+                        activeClassName={'active'}
+                    />
+                </div>
+                    
             </div>
         </section>
     );

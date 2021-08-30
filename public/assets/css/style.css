@@ -2918,6 +2918,17 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   width: 100%;
 }
 
+.paginate-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.paginate-container .pageItem, .paginate-container .previous, .paginate-container .next, .paginate-container .break-me{
+  padding: 10px;
+  cursor: pointer;
+}
+
 /* #endregion Blog */
 /*----------------------------------------------
 13. All Media Queries

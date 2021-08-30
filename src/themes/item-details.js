@@ -5,7 +5,6 @@ import Breadcrumb from '../components/Breadcrumb/Breadcrumb';
 import ItemDetail from '../components/ItemDetails/ItemDetails';
 import LiveAuctions from '../components/Auctions/AuctionsThree';
 import Footer from '../components/Footer/Footer';
-import ModalSearch from '../components/Modal/ModalSearch';
 import ModalMenu from '../components/Modal/ModalMenu';
 import Scrollup from '../components/Scrollup/Scrollup';
 
@@ -17,7 +16,6 @@ class ItemDetails extends Component {
                 <ItemDetail id={this.props.match.params.id}/>
                 {/* <LiveAuctions /> */}
                 <Footer />
-                <ModalSearch />
                 <ModalMenu />
                 <Scrollup />
             </div>
