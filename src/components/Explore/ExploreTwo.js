@@ -9,6 +9,7 @@ import getProducts from '../../actions/product';
 const ExploreTwo = () => {
     const dispatch = useDispatch();
     const { nfts: options } = useSelector(state => state.product);
+    const { pages } = useSelector(state => state.product)
 
     const handlePageClick = (data) => {
         dispatch(getProducts('', data.selected));
@@ -80,7 +81,7 @@ const ExploreTwo = () => {
                         breakLabel={'...'}
                         breakClassName={'break-me'}
                         pageClassName='pageItem'
-                        // pageCount={this.state.pageCount}
+                        pageCount={pages}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}
                         onPageChange={handlePageClick}

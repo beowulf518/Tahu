@@ -4,7 +4,7 @@ import * as TYPES from './types'
 // import * as psychicAPI from 'services/api-psychic'
 import { API } from 'aws-amplify';
 
-const getProducts = (search = '', page = '', refresh = false) => async (dispatch, getState) => {
+const getProducts = (search = '', page = 0, refresh = false) => async (dispatch, getState) => {
     try {
         const { product: { results = [] } } = getState();
         if (!refresh && results.length !== 0) {
@@ -26,8 +26,9 @@ const getProducts = (search = '', page = '', refresh = false) => async (dispatch
             headers: {},
         };
 
-        const apiRes = await API.get(apiName, path, myInit);      
-        const res = apiRes.map(item => {
+        const apiRes = await API.get(apiName, path, myInit);
+        console.log('apiRes: ', apiRes);   
+        const res = apiRes['items'].map(item => {
             const x = {
                 autoplay: true,
                 controls: true,
@@ -52,6 +53,11 @@ const getProducts = (search = '', page = '', refresh = false) => async (dispatch
             type: TYPES.FETCH_PRODUCTS,
             payload: res
         });
+
+        await dispatch({
+            type: TYPES.FETCH_PAGES,
+            payload: apiRes['pages']
+        })
     } catch (error) {
         console.log('[getProducts] error => ', error);
     }

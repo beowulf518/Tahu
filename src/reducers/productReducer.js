@@ -2,7 +2,8 @@
 import * as TYPES from '../actions/types'
 
 const initialState = {
-  nfts: []
+  nfts: [],
+  pages: null,
 };
 
 export default function productReducer(state = initialState, action) {
@@ -21,6 +22,11 @@ export default function productReducer(state = initialState, action) {
       return {
         ...state,
         nfts: res
+      };
+    case TYPES.FETCH_PAGES:
+      return {
+        ...state,
+        pages: action.payload
       };
     default:
       return state;
