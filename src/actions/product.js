@@ -4,7 +4,7 @@ import * as TYPES from './types'
 // import * as psychicAPI from 'services/api-psychic'
 import { API } from 'aws-amplify';
 
-const getProducts = (search = '', page = 0, refresh = false) => async (dispatch, getState) => {
+const getProducts = (search = '', page = '', refresh = false) => async (dispatch, getState) => {
     try {
         const { product: { results = [] } } = getState();
         if (!refresh && results.length !== 0) {
