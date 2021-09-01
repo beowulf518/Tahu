@@ -1,20 +1,42 @@
 
 // import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import VideoJS from '../VideoJS';
 import getProducts from '../../actions/product';
 
 const ExploreTwo = () => {
+    const playerRef = useRef(null);
+
     const dispatch = useDispatch();
+    // const [options, setOptions] = useState();
     const { nfts: options } = useSelector(state => state.product);
     const { pages } = useSelector(state => state.product)
+    console.log('nfts: ', options)
 
     const handlePageClick = (data) => {
         dispatch(getProducts('', data.selected));
         console.log(data.selected);
     }
+
+    const handlePlayerReady = (player) => {
+        playerRef.current = player;
+    
+        // you can handle player events here
+        player.on('waiting', () => {
+          console.log('player is waiting');
+        });
+    
+        player.on('dispose', () => {
+          console.log('player will dispose');
+        });
+    };
+    
+
+    // useEffect(()=>{
+
+    // },[])
     
     return (
         <section className="explore-area">
@@ -41,7 +63,7 @@ const ExploreTwo = () => {
                                 <div className="card">
                                     <div className="image-over">
                                         <a>
-                                            {item.isVideo && <VideoJS options={item} />}
+                                            {item.isVideo && <VideoJS options={item} onReady={handlePlayerReady} />}
                                             {!item.isVideo && <img className="card-img-top" src={item.url} alt="" /> }
                                         </a>
                                     </div>

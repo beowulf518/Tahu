@@ -2463,8 +2463,10 @@ header {
             font-weight: 600;
             line-height: 0;
             color: var(--white-color);
+            
             img {
                 cursor: pointer;
+                max-width: 180px;
             }
         }
         .social-icons > a {

@@ -5,31 +5,42 @@ import "video.js/dist/video-js.css";
 export const VideoJS = ( props ) => {
 
   const videoRef = React.useRef(null);
-  const { options } = props;
+  const playerRef = React.useRef(null);
+  const { options, onReady } = props;
 
-  // This seperate functional component fixes the removal of the videoelement 
-  // from the DOM when calling the dispose() method on a player
-  const VideoHtml = ( props ) => (
-    <div data-vjs-player className="video-wrapper">
-      <video ref={videoRef} className="video-js vjs-big-play-centered video-wrapper" />
-    </div>
-  );
+  React.useEffect(() => {
+    // make sure Video.js player is only initialized once
+    if (!playerRef.current) {
+      const videoElement = videoRef.current;
+      if (!videoElement) return;
 
-  React.useEffect( () => {
-    const videoElement = videoRef.current;
-    let player;
-    if( videoElement ) {
-      player = videojs( videoElement, options, () => {
+      const player = playerRef.current = videojs(videoElement, options, () => {
         console.log("player is ready");
+        onReady && onReady(player);
       });
-    }
-    return () => {
-      if( player ) {
-        player.dispose();
-      }
+    } else {
+      // you can update player here [update player through props]
+      // const player = playerRef.current;
+      // player.autoplay(options.autoplay);
+      // player.src(options.sources);
     }
   }, [options]);
 
-  return (<VideoHtml />);
+  // Dispose the Video.js player when the functional component unmounts
+  React.useEffect(() => {
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.dispose();
+        playerRef.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <div data-vjs-player>
+      <video ref={videoRef} className="video-js vjs-big-play-centered video-wrapper" />
+    </div>
+  );
 }
+
 export default VideoJS;

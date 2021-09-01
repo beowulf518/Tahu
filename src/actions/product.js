@@ -26,8 +26,7 @@ const getProducts = (search = '', page = '', refresh = false) => async (dispatch
             headers: {},
         };
 
-        const apiRes = await API.get(apiName, path, myInit);
-        console.log('apiRes: ', apiRes);   
+        const apiRes = await API.get(apiName, path, myInit);   
         const res = apiRes['items'].map(item => {
             const x = {
                 autoplay: true,
@@ -48,7 +47,7 @@ const getProducts = (search = '', page = '', refresh = false) => async (dispatch
             }
             return x;
         })
-
+        
         await dispatch({
             type: TYPES.FETCH_PRODUCTS,
             payload: res

@@ -14,8 +14,8 @@ const ExploreOne = () => {
     const dispatch = useDispatch();
     const { results: products } = useSelector(state => state.product);
 
-    useEffect(() => {
-        dispatch(getProducts());
+    useEffect(async() => {
+        dispatch(await getProducts());
     }, [dispatch])
 
     return (
