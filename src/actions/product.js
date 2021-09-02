@@ -16,7 +16,7 @@ const getProducts = (search = '', page = '', refresh = false) => async (dispatch
         const apiName = 'tahuapi';
         let path='/items';
         if(search !== ''){
-            path = path+'?q='+search + '&&';
+            path = path+'?q='+search;
         }
         if(page !== ''){
             path = path+'?page='+page;

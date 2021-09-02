@@ -17,7 +17,7 @@ const ModalSearch = () => {
     const inputEl = useRef(null);
 
     const onSearch = () => {
-        dispatch(getProducts(inputEl.current.value));
+        dispatch(getProducts(inputEl.current.value, ''));
         console.log(inputEl.current.value);
     }
 
