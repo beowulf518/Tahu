@@ -18,6 +18,7 @@ import {
     trustWallet,
     binance_wallet,
 } from "../../utils/connectors";
+import _ from "lodash";
 
 const Header = () => {
     const [modal, modal_flag] = useState(false)
@@ -59,11 +60,20 @@ const Header = () => {
     };
 
     const walletConnectors = DESKTOP_CONNECTORS;
-    const { connector, activate } = useWeb3React();
+    const { account, connector, activate } = useWeb3React();
+    const getShortTxHash= (txHash, margin = 4)=> {
+        if (_.isEmpty(txHash)) {
+          return "";
+        }
+        return txHash.replace(
+          txHash.substring(margin + 2, txHash.length - margin),
+          "....",
+        );
+      }
 
     useEffect(() => {
-        console.log(connector)
-    }, [connector])
+        console.log(account)
+    }, [account])
 
     const handleConnect = async(currentConnector, wallet) => {
         setOpen(false);
@@ -136,7 +146,7 @@ const Header = () => {
                     {/* Navbar Action Button */}
                     <ul className="navbar-nav action">
                         <li className="nav-item ml-3">
-                            <a onClick={handleOpen} className="btn ml-lg-auto btn-bordered-white" ><i className="icon-wallet mr-md-2" />{btn_letter.address}</a>
+                            <a onClick={handleOpen} className="btn ml-lg-auto btn-bordered-white" ><i className="icon-wallet mr-md-2" />{ connector === walletConnectors['MetaMask']?getShortTxHash(account, 8):"Connect Wallet"}</a>
                         </li>
                     </ul>
                     <Modal
