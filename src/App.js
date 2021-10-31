@@ -5,7 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import MyRouts from './routers/routes';
 import VideoJS from './components/VideoJS';
+import { Web3ReactProvider } from '@web3-react/core'
+import Web3 from 'web3'
 
+function getLibrary(provider) {
+  return new Web3(provider)
+}
 function App() {
 
   // const [options, setOptions] = useState([]);
@@ -99,7 +104,9 @@ function App() {
        
     //   </header>
     // </div>
+    <Web3ReactProvider getLibrary={getLibrary}>
     <MyRouts />
+    </Web3ReactProvider>
   );
 }
 
